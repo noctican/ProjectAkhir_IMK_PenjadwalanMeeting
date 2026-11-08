@@ -1,0 +1,8 @@
+# deps
+node_modules/
+
+# local database
+data/
+
+# local environment
+.env
