@@ -160,6 +160,7 @@ function countsFor(
 function suggestedStatusFor(
 	state: LocalState,
 	userId: string,
+	eventId: string,
 	date: string,
 	startMinute: number,
 	endMinute: number,
@@ -168,10 +169,24 @@ function suggestedStatusFor(
 	if (!weeklyRangeAvailable(weekly, date, startMinute, endMinute)) {
 		return "unavailable";
 	}
-	const calendar = state.calendars[userId];
-	if (!calendar?.connected) return "available";
 	const start = new Date(isoFor(date, startMinute)).getTime();
 	const end = new Date(isoFor(date, endMinute)).getTime();
+	const eventClash = state.events.some((other) => {
+		if (
+			other.id === eventId ||
+			(other.status !== "open" && other.status !== "finalized")
+		)
+			return false;
+		if (!roleOf(other, userId)) return false;
+		return generateSlots(other.durationMinutes, other.dates).some((slot) => {
+			const otherStart = new Date(slot.startsAt).getTime();
+			const otherEnd = new Date(slot.endsAt).getTime();
+			return start < otherEnd && end > otherStart;
+		});
+	});
+	if (eventClash) return "unavailable";
+	const calendar = state.calendars[userId];
+	if (!calendar?.connected) return "available";
 	const clash = (state.busy[userId] ?? []).some((block) => {
 		const busyStart = new Date(block.startsAt).getTime();
 		const busyEnd = new Date(block.endsAt).getTime();
@@ -221,6 +236,15 @@ function toDetail(state: LocalState, event: LocalEvent, userId: string): EventDe
 	const isOrganizer = role === "organizer";
 	const canSeeCounts = isOrganizer || event.showRecap;
 	const calendar = state.calendars[userId];
+	const invited = event.participants.filter(
+		(member) => member.role === "participant",
+	);
+	const nameOf = (memberId: string) =>
+		state.users.find((item) => item.id === memberId)?.name ?? "Pengguna";
+	const statusOf = (memberId: string, slotKey: string) =>
+		event.responses.find(
+			(item) => item.userId === memberId && item.slotKey === slotKey,
+		)?.status;
 
 	const slots: EventSlot[] = generateSlots(
 		event.durationMinutes,
@@ -235,11 +259,27 @@ function toDetail(state: LocalState, event: LocalEvent, userId: string): EventDe
 			suggestedStatus: suggestedStatusFor(
 				state,
 				userId,
+				event.id,
 				slot.date,
 				slot.startMinute,
 				slot.endMinute,
 			),
-			...(canSeeCounts ? { counts: countsFor(event, slot.key) } : {}),
+			...(canSeeCounts
+				? {
+						counts: countsFor(event, slot.key),
+						availableUsers: invited
+							.filter((item) => statusOf(item.userId, slot.key) === "available")
+							.map((item) => nameOf(item.userId)),
+						unavailableUsers: invited
+							.filter(
+								(item) => statusOf(item.userId, slot.key) === "unavailable",
+							)
+							.map((item) => nameOf(item.userId)),
+						pendingUsers: invited
+							.filter((item) => !statusOf(item.userId, slot.key))
+							.map((item) => nameOf(item.userId)),
+					}
+				: {}),
 		};
 	});
 
@@ -415,7 +455,7 @@ export const localProvider: DataProvider = {
 		const now = new Date().toISOString();
 		state.calendars[user.id] = {
 			connected: true,
-			calendarName: calendarName?.trim() || "Kalender Kampus (simulasi)",
+			calendarName: calendarName?.trim() || "Kalender Kampus",
 			lastSyncedAt: now,
 			connectedAt: now,
 		};

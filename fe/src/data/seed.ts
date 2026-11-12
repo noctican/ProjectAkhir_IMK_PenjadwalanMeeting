@@ -252,7 +252,7 @@ export function buildSeed(): LocalState {
 	for (const id of ["usr-candra", "usr-naufal"]) {
 		calendars[id] = {
 			connected: true,
-			calendarName: "Kalender Kampus (simulasi)",
+			calendarName: "Kalender Kampus",
 			lastSyncedAt: now,
 			connectedAt: now,
 		};

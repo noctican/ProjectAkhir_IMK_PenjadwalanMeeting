@@ -76,6 +76,9 @@ export type EventSlot = {
 	myStatus: MyResponse;
 	suggestedStatus: Exclude<MyResponse, null>;
 	counts?: SlotCounts;
+	availableUsers?: string[];
+	unavailableUsers?: string[];
+	pendingUsers?: string[];
 };
 
 export type EventDetail = EventSummary & {
