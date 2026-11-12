@@ -3,6 +3,11 @@ import { CalendarCheck2, RotateCcw, Save, Sparkles, Undo2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { CalendarCard } from "@/components/calendar-card";
 import { AppShell } from "@/components/shell";
+import {
+	HourHeaderCells,
+	SlotModePicker,
+	useSlotDrag,
+} from "@/components/slot-input";
 import { ErrorBox } from "@/components/ui";
 import { DAY_NAMES, SLOTS_PER_DAY, isoFor, minutesToTime } from "@/data/time";
 import { useAction, useQuery } from "@/data/use-query";
@@ -30,7 +35,7 @@ function slotLabel(day: number, index: number): string {
 }
 
 function JadwalPage() {
-	const mode = useAppStore((s) => s.mode);
+	const storeMode = useAppStore((s) => s.mode);
 	const availability = useQuery((p) => p.getAvailability());
 	const calendar = useQuery((p) => p.getCalendar());
 	const { run, pending, error, setError } = useAction();
@@ -49,6 +54,18 @@ function JadwalPage() {
 		setUndoStack(null);
 		setSessionOnly(false);
 	}, [saved]);
+
+	const { mode, setMode, slotProps } = useSlotDrag({
+		apply: (key, paintMode) => {
+			const [day, column] = key.split(":");
+			paintSlot(Number(day), Number(column), paintMode);
+		},
+		onStart: () => {
+			const base = draft ?? saved;
+			if (base) setUndoStack(base.slice());
+			setSessionOnly(false);
+		},
+	});
 
 	if (availability.error) {
 		return (
@@ -71,7 +88,7 @@ function JadwalPage() {
 					</div>
 				</header>
 				<div className="panel">
-					<span className="skeleton" style={{ height: 260 }} />
+					<span className="skeleton block h-65 w-full" />
 				</div>
 			</div>
 		);
@@ -79,14 +96,18 @@ function JadwalPage() {
 
 	const dirty = draft !== null && saved !== null && !sameSlots(draft, saved);
 
-	function toggle(day: number, column: number) {
+	function paintSlot(
+		day: number,
+		column: number,
+		paintMode: "toggle" | "available" | "unavailable",
+	) {
 		const index = day * SLOTS_PER_DAY + column;
-		setSessionOnly(false);
 		setDraft((current) => {
 			const base = current ?? saved;
 			if (!base) return current;
 			const next = base.slice();
-			next[index] = next[index] === 1 ? 0 : 1;
+			next[index] =
+				paintMode === "toggle" ? (next[index] === 1 ? 0 : 1) : paintMode === "available" ? 1 : 0;
 			return next;
 		});
 	}
@@ -111,9 +132,9 @@ function JadwalPage() {
 		if (result === null) return;
 		setDraft(null);
 		notify(
-			mode === "api"
+			storeMode === "api"
 				? "Jadwal mingguan disimpan ke akunmu."
-				: "Jadwal disimpan di perangkat ini (mode demo).",
+				: "Jadwal disimpan di perangkat ini.",
 			{ tone: "success" },
 		);
 		availability.reload();
@@ -158,8 +179,8 @@ function JadwalPage() {
 				<div>
 					<h1>Jadwal Saya</h1>
 					<p className="page-sub">
-						Warnai slot 30 menit yang kamu miliki. Slot kosong berarti kamu
-						tersedia.
+						Tandai slot 30 menit saat kamu tersedia. Klik atau geser untuk
+						mengisi banyak slot sekaligus.
 					</p>
 				</div>
 				<div className="header-actions">
@@ -178,22 +199,15 @@ function JadwalPage() {
 					<div>
 						<h2 className="panel-title">Ketersediaan mingguan</h2>
 						<p className="panel-sub">
-							{marked} dari {TOTAL_SLOTS} slot ditandai tersedia. Klik sel untuk
-							mengubah, atau gunakan aksi cepat di bawah.
+							{marked} dari {TOTAL_SLOTS} slot ditandai tersedia. Klik, tahan,
+							lalu geser untuk mengisi beberapa slot.
 						</p>
 					</div>
-					<div className="legend">
-						<span className="sr-only">Legenda status slot</span>
-						<span className="legend-item">
-							<span className="legend-swatch focus" aria-hidden="true" />
-							Tersedia
-						</span>
-						<span className="legend-item">
-							<span className="legend-swatch busy" aria-hidden="true" />
-							Tidak tersedia
-						</span>
-					</div>
 				</header>
+
+				<div className="matrix-toolbar">
+					<SlotModePicker mode={mode} onChange={setMode} />
+				</div>
 
 				<div className="matrix-scroll">
 					<table className="matrix">
@@ -202,11 +216,7 @@ function JadwalPage() {
 								<th className="day" scope="col">
 									Hari
 								</th>
-								{Array.from({ length: SLOTS_PER_DAY }).map((_, column) => (
-									<th key={minutesToTime(column * 30)} scope="col">
-										{column % 4 === 0 ? minutesToTime(column * 30) : ""}
-									</th>
-								))}
+								<HourHeaderCells />
 							</tr>
 						</thead>
 						<tbody>
@@ -226,7 +236,7 @@ function JadwalPage() {
 													aria-label={`${slotLabel(day, column)} — ${
 														value === 1 ? "tersedia" : "tidak tersedia"
 													}`}
-													onClick={() => toggle(day, column)}
+													{...slotProps(`${day}:${column}`)}
 												/>
 											</td>
 										);
@@ -263,15 +273,26 @@ function JadwalPage() {
 							disabled={pending}
 						>
 							<Sparkles size={15} aria-hidden="true" />
-							Isi dari kalender (simulasi)
+							Isi dari kalender
 						</button>
 					) : null}
 					{undoStack ? (
 						<button type="button" className="btn small ghost" onClick={undo}>
 							<Undo2 size={15} aria-hidden="true" />
-							Batalkan aksi massal
+							Batalkan perubahan
 						</button>
 					) : null}
+				</div>
+
+				<div className="legend bottom">
+					<span className="legend-item">
+						<span className="legend-swatch focus" aria-hidden="true" />
+						Tersedia
+					</span>
+					<span className="legend-item">
+						<span className="legend-swatch busy" aria-hidden="true" />
+						Tidak tersedia
+					</span>
 				</div>
 
 				<div className="sticky-actions">
@@ -307,13 +328,13 @@ function JadwalPage() {
 							disabled={!dirty || pending}
 						>
 							{pending ? <span className="spinner" /> : <Save size={15} aria-hidden="true" />}
-							{mode === "api" ? "Simpan ke akun" : "Simpan di perangkat ini"}
+							{storeMode === "api" ? "Simpan ke akun" : "Simpan di perangkat ini"}
 						</button>
 					</div>
 				</div>
 			</section>
 
-			<p className="hint" style={{ display: "flex", gap: 6, alignItems: "center" }}>
+			<p className="hint flex items-center gap-1.5">
 				<CalendarCheck2 size={14} aria-hidden="true" />
 				Jadwal rutin tidak berubah saat kamu merespons sebuah event. Respons event
 				disimpan terpisah.

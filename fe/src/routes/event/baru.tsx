@@ -13,6 +13,12 @@ import { useEffect, useState } from "react";
 import { Avatar, ErrorBox } from "@/components/ui";
 import { MonthCalendar, type DateMode } from "@/components/month-calendar";
 import { AppShell, useCurrentUser } from "@/components/shell";
+import {
+	HourHeaderCells,
+	SlotModePicker,
+	useSlotDrag,
+	type SlotMode,
+} from "@/components/slot-input";
 import { useAction, useQuery } from "@/data/use-query";
 import { notify } from "@/data/ui-store";
 import type { CandidateDate, EventInput } from "@/data/types";
@@ -218,21 +224,26 @@ function BuatEventPage() {
 		setSlotPicks(next);
 	}
 
-	function togglePick(target: string, column: number) {
-		setPicksUndo(slotPicks);
+	function paintPick(
+		target: string,
+		column: number,
+		paintMode: SlotMode,
+	) {
 		setSlotPicks((current) => {
 			if (dates.length === 0) return current;
+			const paint = (value: number) =>
+				paintMode === "toggle" ? (value === 1 ? 0 : 1) : paintMode === "available" ? 1 : 0;
 			if (windowMode === "global") {
 				const source = current[dates[0]] ?? emptyPicks();
 				const copy = source.slice();
-				copy[column] = copy[column] === 1 ? 0 : 1;
+				copy[column] = paint(copy[column]);
 				const updated = { ...current };
 				for (const date of dates) updated[date] = copy.slice();
 				return updated;
 			}
 			const base = current[target] ?? emptyPicks();
 			const copy = base.slice();
-			copy[column] = copy[column] === 1 ? 0 : 1;
+			copy[column] = paint(copy[column]);
 			return { ...current, [target]: copy };
 		});
 	}
@@ -352,10 +363,18 @@ function BuatEventPage() {
 				]
 			: dates.map((date) => ({ key: date, label: fmtDateShort(date), picks: picksFor(date) }));
 
+	const { mode, setMode, slotProps } = useSlotDrag({
+		apply: (key, paintMode) => {
+			const [target, column] = key.split("|");
+			paintPick(target, Number(column), paintMode);
+		},
+		onStart: () => setPicksUndo(slotPicks),
+	});
+
 	if (edit && existing.loading) {
 		return (
 			<div className="page">
-				<span className="skeleton" style={{ height: 300 }} />
+				<span className="skeleton block h-75" />
 			</div>
 		);
 	}
@@ -446,7 +465,7 @@ function BuatEventPage() {
 
 						<div className="field full">
 							<span>Peserta</span>
-							<p className="hint" style={{ marginTop: 0 }}>
+							<p className="hint mt-0">
 								Pembuat event otomatis ikut. Pilih anggota lain yang perlu hadir.
 							</p>
 							<div className="people-grid">
@@ -540,7 +559,7 @@ function BuatEventPage() {
 								</div>
 
 								<div>
-									<h3 className="panel-title" style={{ fontSize: 14 }}>
+									<h3 className="panel-title text-sm">
 										Tanggal terpilih ({dates.length})
 									</h3>
 									{dates.length === 0 ? (
@@ -605,16 +624,7 @@ function BuatEventPage() {
 						</div>
 
 						<div className="matrix-toolbar">
-							<div className="legend">
-								<span className="legend-item">
-									<span className="legend-swatch focus" aria-hidden="true" />
-									Dipakai untuk kandidat
-								</span>
-								<span className="legend-item">
-									<span className="legend-swatch" aria-hidden="true" />
-									Tidak dipakai
-								</span>
-							</div>
+							<SlotModePicker mode={mode} onChange={setMode} />
 							<div className="matrix-actions">
 								<button
 									type="button"
@@ -661,11 +671,7 @@ function BuatEventPage() {
 											<th className="day" scope="col">
 												Hari
 											</th>
-											{Array.from({ length: SLOTS_PER_DAY }, (_, column) => (
-												<th key={minutesToTime(column * 30)} scope="col">
-													{column % 4 === 0 ? minutesToTime(column * 30) : ""}
-												</th>
-											))}
+											<HourHeaderCells />
 										</tr>
 									</thead>
 									<tbody>
@@ -680,7 +686,7 @@ function BuatEventPage() {
 															data-state={value === 1 ? "1" : "0"}
 															aria-pressed={value === 1}
 															aria-label={`${row.label} ${minutesToTime(column * 30)}`}
-															onClick={() => togglePick(row.key, column)}
+															{...slotProps(`${row.key}|${column}`)}
 														/>
 													</td>
 												))}
@@ -691,6 +697,17 @@ function BuatEventPage() {
 								<p className="scroll-hint">Geser tabel ke samping untuk melihat jam lainnya.</p>
 							</div>
 						)}
+
+						<div className="legend bottom">
+							<span className="legend-item">
+								<span className="legend-swatch focus" aria-hidden="true" />
+								Dipakai untuk kandidat
+							</span>
+							<span className="legend-item">
+								<span className="legend-swatch" aria-hidden="true" />
+								Tidak dipakai
+							</span>
+						</div>
 
 						<p className="hint">
 							Kandidat dibuat setiap 30 menit selama seluruh durasi {duration} menit
@@ -708,10 +725,10 @@ function BuatEventPage() {
 								onChange={(event) => setShowRecap(event.target.checked)}
 							/>
 							<span className="check-copy">
-								<span style={{ fontWeight: 500 }}>
+								<span className="font-medium">
 									Tampilkan rekap kepada peserta lain
 								</span>
-								<span className="hint" style={{ marginTop: 2 }}>
+								<span className="hint mt-0.5">
 									Peserta bisa melihat jumlah bisa, tidak bisa, dan belum merespons
 									pada tiap kandidat. Identitas dan alasan tidak ditampilkan.
 								</span>
@@ -821,7 +838,7 @@ function BuatEventPage() {
 				</div>
 			</section>
 
-			<p className="hint" style={{ display: "flex", gap: 6, alignItems: "center" }}>
+			<p className="hint flex items-center gap-1.5">
 				<Users size={14} aria-hidden="true" />
 				{participantIds.length} peserta dipilih
 				<span className="dot-sep" />
