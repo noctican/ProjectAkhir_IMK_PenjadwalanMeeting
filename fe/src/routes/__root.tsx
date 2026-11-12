@@ -15,10 +15,11 @@ export const Route = createRootRoute({
 				content:
 					"TemuYuk membantu pengurus organisasi menemukan waktu rapat yang cocok untuk semua peserta.",
 			},
-			{ name: "theme-color", content: "#f8f1d8" },
+			{ name: "theme-color", content: "#f5f2f7" },
 		],
 		links: [
 			{ rel: "stylesheet", href: appCss },
+			{ rel: "preconnect", href: "https://fonts.googleapis.com" },
 			{ rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "" },
 		],
 	}),
@@ -29,6 +30,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 	return (
 		<html lang="id">
 			<head>
+				<script>
+					{'(function(){try{var t=localStorage.getItem("temuyuk-theme");if(t!=="light"&&t!=="dark"){t=window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}document.documentElement.dataset.theme=t;}catch(e){}})();'}
+				</script>
 				<HeadContent />
 			</head>
 			<body>
