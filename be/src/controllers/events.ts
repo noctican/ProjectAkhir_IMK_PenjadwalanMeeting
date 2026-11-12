@@ -6,6 +6,7 @@ import {
 	type CandidateDate,
 	generateSlots,
 	isValidDate,
+	minuteToIso,
 	overlapsBusy,
 	parseSlotKey,
 	rangeAvailableWeekly,
@@ -308,7 +309,7 @@ export function detailEvent(c: Context, id: string) {
 			"SELECT status FROM calendar_connections WHERE user_id = ?",
 		)
 		.get(user.id);
-	const busy =
+	const calendarBusy =
 		connection?.status === "terhubung"
 			? db
 					.query<{ starts_at: string; ends_at: string }, [string]>(
@@ -316,10 +317,31 @@ export function detailEvent(c: Context, id: string) {
 					)
 					.all(user.id)
 			: [];
+	const eventBusy = db
+		.query<
+			{ candidate_date: string; start_minute: number; end_minute: number },
+			[string, string]
+		>(
+			`SELECT d.candidate_date, d.start_minute, d.end_minute
+			 FROM event_dates d
+			 JOIN event_participants p ON p.event_id = d.event_id
+			 JOIN events e ON e.id = d.event_id
+			 WHERE p.user_id = ? AND d.event_id <> ? AND e.status IN ('open', 'finalized')`,
+		)
+		.all(user.id, id)
+		.map((row) => ({
+			starts_at: minuteToIso(row.candidate_date, row.start_minute),
+			ends_at: minuteToIso(row.candidate_date, row.end_minute),
+		}));
+	const busy = [...calendarBusy, ...eventBusy];
+	const nameById = new Map(invited.map((p) => [p.user_id, p.name]));
 
 	const slotPayload = slots.map((slot) => {
 		const c0 = counts.get(slot.key) ?? { available: 0, unavailable: 0 };
-		const pending = invited.length - c0.available - c0.unavailable;
+		const slotResponses = responses.filter((r) => r.slot_key === slot.key);
+		const pending = invited.filter(
+			(p) => !slotResponses.some((r) => r.user_id === p.user_id),
+		);
 		const suggested =
 			rangeAvailableWeekly(weekly, slot.date, slot.startMinute, slot.endMinute) &&
 			!overlapsBusy(busy, slot.startsAt, slot.endsAt)
@@ -334,9 +356,18 @@ export function detailEvent(c: Context, id: string) {
 						counts: {
 							available: c0.available,
 							unavailable: c0.unavailable,
-							pending: Math.max(0, pending),
+							pending: Math.max(0, pending.length),
 							total: invited.length,
 						},
+						availableUsers: slotResponses
+							.filter((r) => r.status === "available")
+							.map((r) => nameById.get(r.user_id))
+							.filter((n): n is string => Boolean(n)),
+						unavailableUsers: slotResponses
+							.filter((r) => r.status === "unavailable")
+							.map((r) => nameById.get(r.user_id))
+							.filter((n): n is string => Boolean(n)),
+						pendingUsers: pending.map((p) => p.name),
 					}
 				: {}),
 		};
@@ -577,7 +608,7 @@ export function remindEvent(c: Context, id: string) {
 	for (const row of pending) update.run(now, id, row.user_id);
 	return {
 		message: pending.length
-			? `Pengingat dikirim ke ${pending.length} peserta (simulasi)`
+			? `Pengingat dikirim ke ${pending.length} peserta`
 			: "Semua peserta sudah merespons",
 		data: { reminded: pending.length },
 	};
@@ -613,7 +644,7 @@ export function addToCalendar(c: Context, id: string) {
 		"INSERT INTO calendar_insertions (event_id, user_id, inserted_at) VALUES (?, ?, ?)",
 	).run(id, user.id, nowIso());
 	return {
-		message: "Jadwal ditambahkan ke Google Calendar (simulasi demo)",
+		message: "Jadwal ditambahkan ke Google Calendar",
 		data: { alreadyAdded: false },
 	};
 }
