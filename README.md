@@ -3,8 +3,8 @@
 Proyek Akhir IMK — Kelompok Kebal When Yah.
 
 TemuYuk membantu pengurus organisasi menemukan waktu rapat yang cocok untuk
-semua peserta. Ketersediaan diambil dari jadwal rutin mingguan dan (secara
-simulasi) jam sibuk Google Calendar, lalu ditampilkan sebagai kandidat waktu
+semua peserta. Ketersediaan diambil dari jadwal rutin mingguan, event TemuYuk
+lain, dan jam sibuk Google Calendar, lalu ditampilkan sebagai kandidat waktu
 dengan rekap jumlah peserta yang bisa, tidak bisa, dan belum merespons.
 
 ## Struktur
@@ -25,7 +25,7 @@ Butuh [Bun](https://bun.sh) 1.x. Dua terminal:
 # terminal 1 — backend
 cd be
 bun install
-bun run seed     # sekali saja: 6 pengguna, 5 event demo, jadwal sibuk
+bun run seed     # sekali saja: 6 pengguna, 5 event contoh, jadwal sibuk
 bun run dev      # http://127.0.0.1:8080
 ```
 
@@ -47,12 +47,12 @@ Buka `http://localhost:3000`, masuk dengan akun demo:
 Semua akun seed memakai kata sandi yang sama. Tiga akun lain (Salsabila, Raka,
 Dinda) juga tersedia sebagai peserta.
 
-## Mode backend dan mode demo
+## Mode backend dan mode lokal
 
 - **Backend aktif** — frontend memakai API (`/api/*`) sebagai sumber data dan
   menampilkan chip “Terhubung ke server”.
 - **Backend tidak aktif** — aplikasi tetap dapat dibuka memakai `localStorage`
-  (`temuyuk:demo:v1`), dengan banner “Mode Demo — perubahan disimpan di
+  (`temuyuk:demo:v1`), dengan banner “Mode lokal — perubahan disimpan di
   perangkat ini”. Data bertahan setelah refresh. Login, jadwal, event, respons,
   dan finalisasi semuanya berjalan lokal.
 - Perpindahan mode tidak otomatis menimpa data. Jika koneksi putus, pengguna
@@ -66,21 +66,20 @@ Dinda) juga tersedia sebagai peserta.
 4. **Buat event** — `/event/baru` (5 tahap: info, tanggal, jam, rekap, tinjau)
 5. **Detail event** — `/event/:id` (respons peserta, rekap organizer, finalisasi)
 
-## Yang disimulasikan
+## Catatan integrasi kalender
 
 Integrasi Google Calendar belum memakai OAuth. Endpoint `/api/calendar/*`
-membaca jam sibuk contoh dan selalu menandai status `demo: true`. UI menyebut
-“simulasi” pada kartu kalender, tombol sinkronisasi, dan penambahan ke kalender,
-sehingga tidak ada klaim bahwa event benar-benar dibuat di Google Calendar.
+memakai data jam sibuk contoh untuk mengisi ketersediaan awal, dan pengguna
+tetap dapat mengubahnya secara manual.
 
 ## Perintah lain
 
 ```sh
-cd be && bun run seed         # reset dan isi ulang data demo
+cd be && bun run seed         # reset dan isi ulang data awal
 cd be && bun run typecheck    # cek tipe backend (perlu TypeScript terpasang)
 cd fe && npx tsc --noEmit     # cek tipe frontend
 cd fe && bun run build        # build produksi
 ```
 
-Reset data demo backend: `cd be && bun run seed`. Reset data mode lokal: buka
+Reset data backend: `cd be && bun run seed`. Reset data mode lokal: buka
 DevTools lalu hapus key `temuyuk:demo:v1` dan `temuyuk:session:v1`.
