@@ -13,10 +13,10 @@ export function CalendarCard({ onChanged }: { onChanged?: () => void }) {
 
 	async function handleConnect() {
 		const result = await action.run((provider) =>
-			provider.connectCalendar("Kalender Kampus (simulasi)"),
+			provider.connectCalendar("Kalender Kampus"),
 		);
 		if (result) {
-			notify("Google Calendar terhubung (simulasi demo).");
+			notify("Google Calendar terhubung.");
 			calendar.reload();
 			onChanged?.();
 		}
@@ -25,7 +25,7 @@ export function CalendarCard({ onChanged }: { onChanged?: () => void }) {
 	async function handleSync() {
 		const result = await action.run((provider) => provider.syncCalendar());
 		if (result) {
-			notify("Jadwal kalender diperbarui (simulasi demo).");
+			notify("Jadwal kalender diperbarui.");
 			calendar.reload();
 			onChanged?.();
 		}
@@ -46,7 +46,7 @@ export function CalendarCard({ onChanged }: { onChanged?: () => void }) {
 	if (calendar.loading && !status) {
 		return (
 			<div className="panel">
-				<div className="skeleton" style={{ height: 42, width: "100%" }} />
+				<div className="skeleton h-10 w-full" />
 			</div>
 		);
 	}
@@ -121,8 +121,8 @@ export function CalendarCard({ onChanged }: { onChanged?: () => void }) {
 				</div>
 			</div>
 			<p className="hint mt-3">
-				Simulasi demo: TemuYuk tidak mengakses akun Google asli dan tidak pernah
-				menampilkan detail acara pribadi.
+				TemuYuk memakai jadwal sibuk dari kalender yang terhubung untuk mengisi
+				ketersediaan awal. Detail acara pribadi tidak ditampilkan.
 			</p>
 			{action.error ? (
 				<p className="error-text mt-2" role="alert">

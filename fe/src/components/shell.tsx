@@ -1,5 +1,4 @@
 import {
-	CalendarDays,
 	CalendarClock,
 	LayoutDashboard,
 	LogOut,
@@ -10,19 +9,12 @@ import { Link, Navigate, useNavigate, useRouterState } from "@tanstack/react-rou
 import { useEffect, type ReactNode } from "react";
 import { useAppStore } from "@/data/store";
 import { notify } from "@/data/ui-store";
+import { ThemeToggle } from "./theme-toggle";
 import { Avatar, Toasts } from "./ui";
 
 function FullScreen({ children }: { children: ReactNode }) {
 	return (
-		<div
-			style={{
-				minHeight: "100vh",
-				display: "grid",
-				placeItems: "center",
-				color: "var(--muted)",
-				fontSize: 13,
-			}}
-		>
+		<div className="grid min-h-screen place-items-center text-sm text-muted">
 			{children}
 		</div>
 	);
@@ -67,7 +59,7 @@ export function AppShell({ children }: { children: ReactNode }) {
 
 	async function handleLocal() {
 		await switchToLocal();
-		notify("Berpindah ke mode demo lokal.", { tone: "info" });
+		notify("Berpindah ke mode lokal.", { tone: "info" });
 	}
 
 	const banner =
@@ -91,7 +83,7 @@ export function AppShell({ children }: { children: ReactNode }) {
 			<output className="banner">
 				<WifiOff />
 				<span>
-					Mode Demo — perubahan disimpan di perangkat ini dan tidak dikirim ke
+					Mode lokal — perubahan disimpan di perangkat ini dan tidak dikirim ke
 					server.
 				</span>
 				<div className="banner-actions">
@@ -135,13 +127,16 @@ export function AppShell({ children }: { children: ReactNode }) {
 				</nav>
 
 				<div className="sidebar-foot">
-					<div className="mode-chip" data-mode={mode}>
-						<span className="mode-dot" />
-						{mode === "local" ? "Mode demo lokal" : "Terhubung ke server"}
+					<div className="flex items-center justify-between gap-2">
+						<div className="mode-chip" data-mode={mode}>
+							<span className="mode-dot" />
+							{mode === "local" ? "Mode lokal" : "Terhubung ke server"}
+						</div>
+						<ThemeToggle />
 					</div>
 					<div className="user-card">
 						<Avatar name={user.name} />
-						<div style={{ minWidth: 0 }}>
+						<div className="min-w-0">
 							<div className="user-name">{user.name}</div>
 							<div className="user-role">{user.role}</div>
 						</div>
@@ -182,6 +177,7 @@ export function AppShell({ children }: { children: ReactNode }) {
 								</Link>
 							);
 						})}
+						<ThemeToggle />
 						<button type="button" onClick={handleLogout} aria-label="Keluar">
 							<LogOut size={16} />
 						</button>
@@ -190,20 +186,6 @@ export function AppShell({ children }: { children: ReactNode }) {
 
 				{banner ? <div className="banner-wrap">{banner}</div> : null}
 				{children}
-				<footer
-					style={{
-						padding: "0 32px 28px",
-						fontSize: 12,
-						color: "var(--muted)",
-						display: "flex",
-						gap: 8,
-						alignItems: "center",
-					}}
-				>
-					<CalendarDays size={14} />
-					TemuYuk · Cari waktu yang pas untuk semua. Integrasi Google Calendar
-					pada versi ini berupa simulasi.
-				</footer>
 			</div>
 			<Toasts />
 		</div>

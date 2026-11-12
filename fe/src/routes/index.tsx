@@ -259,9 +259,9 @@ function EventRow({ event }: { event: EventSummary }) {
 function MatrixSkeleton() {
 	return (
 		<div className="stack" aria-hidden="true">
-			<span className="skeleton" style={{ height: 42 }} />
-			<span className="skeleton" style={{ height: 42 }} />
-			<span className="skeleton" style={{ height: 42 }} />
+			<span className="skeleton block h-10 w-full" />
+			<span className="skeleton block h-10 w-full" />
+			<span className="skeleton block h-10 w-full" />
 		</div>
 	);
 }

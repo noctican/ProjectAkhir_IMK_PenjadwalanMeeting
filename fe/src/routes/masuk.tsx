@@ -2,6 +2,7 @@ import { createFileRoute, Link, Navigate, useNavigate } from "@tanstack/react-ro
 import { ChevronRight, WifiOff } from "lucide-react";
 import { useState } from "react";
 import { CalendarCard } from "@/components/calendar-card";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { useAppStore } from "@/data/store";
 import { DEMO_ACCOUNTS, DEMO_PASSWORD } from "@/data/seed";
 
@@ -29,7 +30,7 @@ function MasukPage() {
 
 	if (!ready) {
 		return (
-			<div className="login">
+			<div className="login relative">
 				<div className="login-intro">
 					<p className="muted">Memuat TemuYuk…</p>
 				</div>
@@ -64,7 +65,10 @@ function MasukPage() {
 	}
 
 	return (
-		<div className="login">
+		<div className="login relative">
+			<div className="absolute right-5 top-5 z-10">
+				<ThemeToggle />
+			</div>
 			<section className="login-intro">
 				<Link to="/masuk" className="login-brand">
 					<span className="brand-mark">T</span>
@@ -93,7 +97,7 @@ function MasukPage() {
 				<p className="login-foot">
 					{mode === "local" ? (
 						<>
-							<WifiOff size={14} aria-hidden="true" /> Mode Demo aktif — data
+							<WifiOff size={14} aria-hidden="true" /> Mode lokal aktif — data
 							disimpan di perangkat ini.
 						</>
 					) : (
@@ -205,28 +209,23 @@ function MasukPage() {
 								</button>
 							</form>
 
-							<div className="demo-box">
-								<p>
-									<span style={{ fontWeight: 600 }}>Akun demo</span> untuk
-									mencoba cepat. Kata sandi: <code>{DEMO_PASSWORD}</code>
-								</p>
-								<div className="demo-btns">
-									{DEMO_ACCOUNTS.map((account) => (
-										<button
-											key={account.email}
-											type="button"
-											className="chip"
-											onClick={() => fillDemo(account.email)}
-										>
-											{account.label}
-										</button>
-									))}
-								</div>
+							<div className="demo-line">
+								<span className="demo-label">Akun demo: </span>
+								{DEMO_ACCOUNTS.map((account) => (
+									<button
+										key={account.email}
+										type="button"
+										className="demo-chip"
+										onClick={() => fillDemo(account.email)}
+									>
+										{account.label}
+									</button>
+								))}
 							</div>
 
 							<p className="login-note">
-								Google Calendar pada versi ini masih simulasi. Kamu tetap bisa
-								mengatur jadwal secara manual.
+								Hubungkan Google Calendar di Jadwal Saya agar jadwal sibuk ikut
+								dipertimbangkan. Kamu tetap bisa mengatur jadwal secara manual.
 							</p>
 						</>
 					) : (
