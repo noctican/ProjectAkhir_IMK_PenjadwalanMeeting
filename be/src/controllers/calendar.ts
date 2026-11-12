@@ -113,7 +113,7 @@ export function connect(c: Context, body: Record<string, unknown> | null) {
 		   connected_at = excluded.connected_at, last_synced_at = excluded.last_synced_at`,
 	).run(user.id, name, now, now);
 	ensureMockBusy(user.id);
-	return { message: "Google Calendar terhubung (simulasi demo)", data: status(c).data };
+	return { message: "Google Calendar terhubung", data: status(c).data };
 }
 
 export function disconnect(c: Context) {
@@ -142,7 +142,7 @@ export function sync(c: Context) {
 	db.query(
 		"UPDATE calendar_connections SET last_synced_at = ? WHERE user_id = ?",
 	).run(nowIso(), user.id);
-	return { message: "Jadwal kalender diperbarui (simulasi demo)", data: status(c).data };
+	return { message: "Jadwal kalender diperbarui", data: status(c).data };
 }
 
 export function busy(c: Context) {

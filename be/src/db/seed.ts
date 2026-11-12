@@ -279,9 +279,9 @@ for (const event of EVENTS) {
 }
 
 console.log("Seed TemuYuk selesai.");
-console.log(`Akun demo (kata sandi: ${PASSWORD}):`);
+console.log(`Akun contoh (kata sandi: ${PASSWORD}):`);
 for (const user of USERS.slice(0, 3)) {
 	console.log(`  - ${user.email} (${user.name})`);
 }
-console.log(`Event demo: ${EVENTS.length}`);
+console.log(`Event contoh: ${EVENTS.length}`);
 console.log(`Slot pertama: ${minuteToIso(dateOffset(2), 9 * 60)}`);
