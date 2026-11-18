@@ -28,13 +28,22 @@
     </div>
     <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
       <p class="login-foot">TemuYuk · Cari waktu yang pas.</p>
+      <button type="button" class="theme-toggle" data-theme-btn aria-label="Aktifkan tema gelap" title="Tema gelap"><i class="bi bi-moon" aria-hidden="true"></i></button>
     </div>
   </section>
   <main class="login-panel" aria-label="Masuk atau daftar akun">
     <div class="auth-card">
       <h2 id="auth-title">Masuk ke akunmu</h2>
-      <p class="auth-sub">Lanjutkan pengaturan jadwal dan event organisasimu.</p>
+      <p class="auth-sub" id="auth-sub">Lanjutkan pengaturan jadwal dan event organisasimu.</p>
+      <div class="tabs" role="tablist" aria-label="Pilihan masuk atau daftar">
+        <button type="button" class="tab" role="tab" id="tab-masuk" aria-selected="true">Masuk</button>
+        <button type="button" class="tab" role="tab" id="tab-daftar" aria-selected="false">Daftar</button>
+      </div>
       <form class="auth-form" id="auth-form" novalidate>
+        <div class="field" id="name-field" hidden>
+          <label for="auth-name">Nama lengkap</label>
+          <input class="input" id="auth-name" name="name" autocomplete="name" placeholder="Nama kamu">
+        </div>
         <div class="field">
           <label for="auth-email">Email</label>
           <input class="input" id="auth-email" name="email" type="email" autocomplete="email" required placeholder="nama@student.ub.ac.id">
@@ -42,6 +51,7 @@
         <div class="field">
           <label for="auth-pass">Kata sandi</label>
           <input class="input" id="auth-pass" name="password" type="password" autocomplete="current-password" required placeholder="Kata sandi">
+          <span class="hint" id="pass-hint" hidden>Gunakan minimal 8 karakter.</span>
         </div>
         <p class="error-text" id="auth-error" role="alert" hidden></p>
         <button type="submit" class="btn primary w-full" id="auth-submit">Masuk</button>
@@ -51,7 +61,7 @@
         <svg viewBox="0 0 18 18" aria-hidden="true" focusable="false"><path fill="#4285F4" d="M17.64 9.2c0-.64-.06-1.25-.16-1.84H9v3.48h4.84a4.14 4.14 0 0 1-1.8 2.72v2.26h2.92c1.7-1.57 2.68-3.88 2.68-6.62Z"/><path fill="#34A853" d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.92-2.26c-.8.54-1.84.86-3.04.86-2.34 0-4.32-1.58-5.03-3.7H.96v2.33A9 9 0 0 0 9 18Z"/><path fill="#FBBC05" d="M3.97 10.72a5.4 5.4 0 0 1 0-3.44V4.95H.96a9 9 0 0 0 0 8.1l3.01-2.33Z"/><path fill="#EA4335" d="M9 3.58c1.32 0 2.5.45 3.44 1.35l2.58-2.59C13.46.9 11.43 0 9 0A9 9 0 0 0 .96 4.95l3.01 2.33C4.68 5.16 6.66 3.58 9 3.58Z"/></svg>
         Masuk dengan Google
       </button>
-            <p class="login-note">Hubungkan Google Calendar di Jadwal Saya agar jadwal sibuk ikut dipertimbangkan. Kamu tetap bisa mengatur jadwal secara manual.</p>
+            <p class="login-note" id="login-note">Hubungkan Google Calendar di Jadwal Saya agar jadwal sibuk ikut dipertimbangkan. Kamu tetap bisa mengatur jadwal secara manual.</p>
     </div>
   </main>
 </div>
