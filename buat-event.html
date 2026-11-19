@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Buat Event | TemuYuk</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip-link visually-hidden" href="#page-title">Lewati ke konten utama</a>
+<div class="app">
+  <aside class="sidebar" aria-label="Navigasi utama">
+    <a href="dasbor.html" class="brand" aria-label="TemuYuk, ke dasbor">
+      <span class="brand-mark" aria-hidden="true">T</span>
+      <span><span class="brand-name">TemuYuk</span><span class="brand-tag">Cari waktu yang pas.</span></span>
+    </a>
+    <nav class="nav" aria-label="Navigasi utama">
+      <span class="nav-label">Ruang kerja</span>
+      <a class="nav-link" href="dasbor.html"><i class="bi bi-grid-1x2-fill" aria-hidden="true"></i> Dasbor</a>
+      <a class="nav-link" href="jadwal-saya.html"><i class="bi bi-calendar2-week" aria-hidden="true"></i> Jadwal Saya</a>
+      <a class="nav-link active" href="buat-event.html" aria-current="page"><i class="bi bi-plus-lg" aria-hidden="true"></i> Buat Event</a>
+    </nav>
+    <footer class="sidebar-foot">
+      <div class="foot-row">
+        <button type="button" class="theme-toggle" data-theme-btn aria-label="Aktifkan tema gelap" title="Tema gelap"><i class="bi bi-moon" aria-hidden="true"></i></button>
+      </div>
+      <div class="user-card">
+        <span class="avatar" aria-hidden="true">CA</span>
+        <div style="min-width:0"><div class="user-name">Candra Andika Putra</div><div class="user-role">Ketua Umum</div></div>
+        <a class="icon-btn" href="index.html" aria-label="Keluar" title="Keluar"><i class="bi bi-box-arrow-right" aria-hidden="true"></i></a>
+      </div>
+    </footer>
+  </aside>
+  <main class="main">
+    <header class="mobile-bar">
+      <a href="dasbor.html" class="brand" aria-label="TemuYuk, ke dasbor"><span class="brand-mark" aria-hidden="true">T</span><span class="brand-name">TemuYuk</span></a>
+      <nav class="mobile-nav" aria-label="Navigasi">
+        <a href="dasbor.html" aria-label="Dasbor"><i class="bi bi-grid-1x2-fill" aria-hidden="true"></i></a>
+        <a href="jadwal-saya.html" aria-label="Jadwal Saya"><i class="bi bi-calendar2-week" aria-hidden="true"></i></a>
+        <a href="buat-event.html" class="active" aria-label="Buat Event"><i class="bi bi-plus-lg" aria-hidden="true"></i></a>
+        <button type="button" data-theme-btn aria-label="Aktifkan tema gelap"><i class="bi bi-moon" aria-hidden="true"></i></button>
+        <a href="index.html" aria-label="Keluar"><i class="bi bi-box-arrow-right" aria-hidden="true"></i></a>
+      </nav>
+    </header>
+    <div class="page">
+      <header class="page-head">
+        <div><h1 id="page-title">Buat event</h1><p class="page-sub">Tentukan siapa yang diundang, tanggal, dan jam yang mungkin.</p></div>
+        <div class="header-actions"><a href="dasbor.html" class="btn ghost small">Batal</a></div>
+      </header>
+      <ol class="stepper" id="stepper" aria-label="Langkah pembuatan event">
+        <li class="step active"><span class="step-num" aria-hidden="true">1</span><span class="step-label">Info</span><span class="sr-only">Langkah 1: Informasi event</span></li>
+        <li class="step"><span class="step-num" aria-hidden="true">2</span><span class="step-label">Tanggal</span><span class="sr-only">Langkah 2: Tanggal kandidat</span></li>
+        <li class="step"><span class="step-num" aria-hidden="true">3</span><span class="step-label">Jam</span><span class="sr-only">Langkah 3: Rentang jam</span></li>
+        <li class="step"><span class="step-num" aria-hidden="true">4</span><span class="step-label">Rekap</span><span class="sr-only">Langkah 4: Visibilitas rekap</span></li>
+        <li class="step"><span class="step-num" aria-hidden="true">5</span><span class="step-label">Tinjau</span><span class="sr-only">Langkah 5: Tinjau dan publikasi</span></li>
+      </ol>
+      <section class="panel" aria-live="polite">
+        <header class="panel-head"><div><h2 class="panel-title" id="step-title">Informasi event</h2><p class="panel-sub" id="step-sub">Isi judul, durasi, dan pilih peserta yang perlu hadir.</p></div></header>
+        <!-- STEP 1 -->
+        <div class="wizard-step" data-step="1">
+          <div class="form-grid">
+            <label class="field full"><span>Judul event</span><input class="input" id="ev-title" maxlength="120" value="Rapat koordinasi divisi acara" placeholder="Contoh: Rapat koordinasi divisi acara"></label>
+            <label class="field full"><span>Deskripsi (opsional)</span><textarea class="textarea" id="ev-desc" rows="3" placeholder="Agenda singkat atau catatan untuk peserta">Koordinasi rundown dan pembagian tugas</textarea></label>
+            <label class="field"><span>Durasi pertemuan</span>
+              <select class="select" id="ev-dur"><option>30 menit</option><option selected>60 menit</option><option>90 menit</option><option>120 menit</option><option>150 menit</option><option>180 menit</option></select>
+              <span class="hint">Kelipatan 30 menit.</span>
+            </label>
+            <div class="field full"><span id="part-label">Peserta</span><p class="hint">Pembuat event otomatis ikut. Pilih anggota lain yang perlu hadir.</p>
+              <div class="people-grid" id="part-list" role="group" aria-labelledby="part-label">
+                <button type="button" class="person" aria-pressed="true"><span class="avatar" aria-hidden="true">NF</span><span><span class="person-name">Naufal Fadhil Arkani</span><span class="person-role">Sekretaris</span></span><span class="person-check" aria-hidden="true">✓</span></button>
+                <button type="button" class="person" aria-pressed="true"><span class="avatar" aria-hidden="true">BZ</span><span><span class="person-name">Bagas Zakaria</span><span class="person-role">Koordinator Acara</span></span><span class="person-check" aria-hidden="true">✓</span></button>
+                <button type="button" class="person" aria-pressed="false"><span class="avatar" aria-hidden="true">AS</span><span><span class="person-name">Aulya Shabrina Ahmadewi</span><span class="person-role">Anggota BCC</span></span><span class="person-check" aria-hidden="true">✓</span></button>
+                <button type="button" class="person" aria-pressed="false"><span class="avatar" aria-hidden="true">FN</span><span><span class="person-name">Fransiska Nadine Clarissa</span><span class="person-role">Anggota HMDTIF</span></span><span class="person-check" aria-hidden="true">✓</span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- STEP 2 -->
+        <div class="wizard-step" data-step="2" hidden>
+          <div class="stack">
+            <div class="segmented" role="group" aria-label="Cara memilih tanggal">
+              <button type="button" aria-pressed="true" data-datemode="range">Rentang tanggal</button>
+              <button type="button" aria-pressed="false" data-datemode="custom">Tanggal tertentu</button>
+            </div>
+            <div class="grid-2" style="align-items:start">
+              <div class="cal-picker" aria-label="Kalender kandidat">
+                <div class="cal-head">
+                  <button type="button" class="btn ghost small" id="cal-prev" aria-label="Bulan sebelumnya">‹</button>
+                  <span class="cal-title" id="cal-title">November 2026</span>
+                  <button type="button" class="btn ghost small" id="cal-next" aria-label="Bulan berikutnya">›</button>
+                </div>
+                <div class="cal-grid" role="grid" aria-label="Pilih tanggal">
+                  <span class="cal-weekday">Sen</span><span class="cal-weekday">Sel</span><span class="cal-weekday">Rab</span><span class="cal-weekday">Kam</span><span class="cal-weekday">Jum</span><span class="cal-weekday">Sab</span><span class="cal-weekday">Min</span>
+                  <span id="cal-cells" style="display:contents"></span>
+                </div>
+              </div>
+              <div class="stack">
+                <p class="hint" id="date-hint">Klik tanggal mulai, lalu tanggal akhir pada kalender. Rentang langsung digunakan sebagai kandidat.</p>
+                <div class="matrix-actions"><button type="button" class="btn ghost small" id="date-clear">Kosongkan tanggal</button></div>
+                <div><h3 class="panel-title" style="font-size:14px">Tanggal terpilih (<span id="date-count">4</span>)</h3>
+                  <div class="chip-row" id="date-chips" style="margin-top:8px"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- STEP 3 -->
+        <div class="wizard-step" data-step="3" hidden>
+          <div class="stack">
+            <div class="segmented" role="group" aria-label="Cara menentukan rentang jam">
+              <button type="button" aria-pressed="true" data-winmode="global">Satu rentang untuk semua</button>
+              <button type="button" aria-pressed="false" data-winmode="custom">Rentang per tanggal</button>
+            </div>
+            <div class="matrix-toolbar">
+              <div class="segmented slot-mode" role="group" aria-label="Mode pengisian slot">
+                <button type="button" aria-pressed="true" data-slotmode="toggle" title="Balik isi tiap slot yang dilewati">Balik nilai</button>
+                <button type="button" aria-pressed="false" data-slotmode="available" title="Tandai semua slot yang dilewati bisa">Bisa</button>
+                <button type="button" aria-pressed="false" data-slotmode="unavailable" title="Tandai semua slot yang dilewati tidak bisa">Tidak bisa</button>
+              </div>
+              <div class="matrix-actions">
+                <button type="button" class="btn ghost small" id="jam-all">Tandai semua jam</button>
+                <button type="button" class="btn ghost small" id="jam-none">Kosongkan semua</button>
+              </div>
+            </div>
+            <p class="hint" id="win-hint">Satu baris untuk semua tanggal. Perubahan di bawah berlaku untuk setiap tanggal kandidat.</p>
+            <div class="matrix-scroll" id="jam-scroll" tabindex="0" role="region" aria-labelledby="step-title">
+              <table class="matrix"><thead><tr><th class="day" scope="col">Hari</th><th scope="col" colspan="2">00:00</th><th scope="col" colspan="2">01:00</th><th scope="col" colspan="2">02:00</th><th scope="col" colspan="2">03:00</th><th scope="col" colspan="2">04:00</th><th scope="col" colspan="2">05:00</th><th scope="col" colspan="2">06:00</th><th scope="col" colspan="2">07:00</th><th scope="col" colspan="2">08:00</th><th scope="col" colspan="2">09:00</th><th scope="col" colspan="2">10:00</th><th scope="col" colspan="2">11:00</th><th scope="col" colspan="2">12:00</th><th scope="col" colspan="2">13:00</th><th scope="col" colspan="2">14:00</th><th scope="col" colspan="2">15:00</th><th scope="col" colspan="2">16:00</th><th scope="col" colspan="2">17:00</th><th scope="col" colspan="2">18:00</th><th scope="col" colspan="2">19:00</th><th scope="col" colspan="2">20:00</th><th scope="col" colspan="2">21:00</th><th scope="col" colspan="2">22:00</th><th scope="col" colspan="2">23:00</th></tr></thead><tbody id="jam-body"></tbody></table>
+            </div>
+            <p class="scroll-hint">Geser tabel ke samping untuk melihat jam lainnya.</p>
+            <div class="legend bottom"><span class="legend-item"><span class="legend-swatch focus" aria-hidden="true"></span>Dipakai untuk kandidat</span><span class="legend-item"><span class="legend-swatch" aria-hidden="true"></span>Tidak dipakai</span></div>
+            <p class="hint">Kandidat dibuat setiap 30 menit selama seluruh durasi <span id="jam-dur">60</span> menit masih berada di dalam rentang. Perkiraan: <span id="jam-total">88</span> kandidat waktu.</p>
+          </div>
+        </div>
+        <!-- STEP 4 -->
+        <div class="wizard-step" data-step="4" hidden>
+          <div class="stack">
+            <label class="check-row"><input type="checkbox" id="show-recap"><span class="check-copy"><span>Tampilkan rekap kepada peserta lain</span><span class="hint">Peserta bisa melihat jumlah bisa, tidak bisa, dan belum merespons pada tiap kandidat. Identitas dan alasan tidak ditampilkan.</span></span></label>
+            <p class="hint" id="recap-hint">Rekap hanya terlihat olehmu sebagai pembuat event. Ini pengaturan yang disarankan.</p>
+          </div>
+        </div>
+        <!-- STEP 5 -->
+        <div class="wizard-step" data-step="5" hidden>
+          <div class="stack">
+            <dl class="summary">
+              <dt>Judul</dt><dd id="sum-title">Rapat koordinasi divisi acara</dd>
+              <dt>Deskripsi</dt><dd id="sum-desc">Koordinasi rundown dan pembagian tugas</dd>
+              <dt>Durasi</dt><dd id="sum-dur">60 menit</dd>
+              <dt>Peserta</dt><dd id="sum-part">Naufal Fadhil Arkani</dd>
+              <dt>Tanggal kandidat</dt><dd><div class="date-rows" id="sum-dates"></div></dd>
+              <dt>Rekap peserta</dt><dd id="sum-recap">Hanya pembuat event</dd>
+              <dt>Kandidat waktu</dt><dd id="sum-slots">88 slot</dd>
+            </dl>
+            <p class="hint">Setelah dipublikasikan, peserta bisa mengisi ketersediaan. Jadwal final tetap kamu tentukan sendiri.</p>
+          </div>
+        </div>
+        <p class="error-text" id="form-error" role="alert" hidden></p>
+        <div class="sticky-actions" style="margin-top:20px">
+          <div><button type="button" class="btn ghost" id="wiz-back" hidden>‹ Kembali</button></div>
+          <div class="actions-row" style="margin-bottom:0">
+            <button type="button" class="btn ghost" id="wiz-draft" hidden>Simpan sebagai draf</button>
+            <button type="button" class="btn primary" id="wiz-next">Lanjut ›</button>
+          </div>
+        </div>
+      </section>
+      <p class="hint">👥 <span id="wiz-count">2 peserta dipilih</span> <span class="dot-sep"></span> 📅 <span id="wiz-dates">4 tanggal kandidat</span></p>
+    </div>
+  </main>
+</div>
+<div class="toasts" id="toasts" aria-live="polite"></div>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
