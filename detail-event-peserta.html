@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Isi Ketersediaan | TemuYuk</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip-link visually-hidden" href="#detail-title">Lewati ke konten utama</a>
+<div class="app">
+  <aside class="sidebar" aria-label="Navigasi utama">
+    <a href="dasbor.html" class="brand" aria-label="TemuYuk, ke dasbor">
+      <span class="brand-mark" aria-hidden="true">T</span>
+      <span><span class="brand-name">TemuYuk</span><span class="brand-tag">Cari waktu yang pas.</span></span>
+    </a>
+    <nav class="nav" aria-label="Navigasi utama">
+      <span class="nav-label">Ruang kerja</span>
+      <a class="nav-link active" href="dasbor.html" aria-current="page"><i class="bi bi-grid-1x2-fill" aria-hidden="true"></i> Dasbor</a>
+      <a class="nav-link" href="jadwal-saya.html"><i class="bi bi-calendar2-week" aria-hidden="true"></i> Jadwal Saya</a>
+      <a class="nav-link" href="buat-event.html"><i class="bi bi-plus-lg" aria-hidden="true"></i> Buat Event</a>
+    </nav>
+    <footer class="sidebar-foot">
+      <div class="foot-row">
+        <button type="button" class="theme-toggle" data-theme-btn aria-label="Aktifkan tema gelap" title="Tema gelap"><i class="bi bi-moon" aria-hidden="true"></i></button>
+      </div>
+      <div class="user-card">
+        <span class="avatar" aria-hidden="true">AS</span>
+        <div style="min-width:0"><div class="user-name">Aulya Shabrina</div><div class="user-role">Anggota BCC</div></div>
+        <a class="icon-btn" href="index.html" aria-label="Keluar" title="Keluar"><i class="bi bi-box-arrow-right" aria-hidden="true"></i></a>
+      </div>
+    </footer>
+  </aside>
+  <main class="main">
+    <header class="mobile-bar">
+      <a href="dasbor.html" class="brand" aria-label="TemuYuk, ke dasbor"><span class="brand-mark" aria-hidden="true">T</span><span class="brand-name">TemuYuk</span></a>
+      <nav class="mobile-nav" aria-label="Navigasi">
+        <a href="dasbor.html" class="active" aria-label="Dasbor"><i class="bi bi-grid-1x2-fill" aria-hidden="true"></i></a>
+        <a href="jadwal-saya.html" aria-label="Jadwal Saya"><i class="bi bi-calendar2-week" aria-hidden="true"></i></a>
+        <a href="buat-event.html" aria-label="Buat Event"><i class="bi bi-plus-lg" aria-hidden="true"></i></a>
+        <button type="button" data-theme-btn aria-label="Aktifkan tema gelap"><i class="bi bi-moon" aria-hidden="true"></i></button>
+        <a href="index.html" aria-label="Keluar"><i class="bi bi-box-arrow-right" aria-hidden="true"></i></a>
+      </nav>
+    </header>
+    <div class="page">
+      <a href="dasbor.html" class="btn ghost small" style="align-self:flex-start">← Kembali</a>
+      <header class="detail-head">
+        <div>
+          <div class="actions-row"><span class="badge open">Menunggu respons</span><span class="badge plain">Kamu peserta</span></div>
+          <h1 class="detail-title" id="detail-title">Rapat koordinasi divisi acara</h1>
+          <p class="detail-meta"><span>🕐 <strong>60</strong> menit</span><span class="dot-sep"></span><span>👥 <strong>8</strong> peserta · <strong>5</strong> sudah merespons</span><span class="dot-sep"></span><span><strong>4</strong> tanggal kandidat</span></p>
+        </div>
+      </header>
+      <section class="panel" aria-labelledby="my-title">
+        <header class="panel-head"><div><h2 class="panel-title" id="my-title">Ketersediaanmu</h2><p class="panel-sub">Tandai waktu yang kamu bisa hadiri. Status awal diambil dari jadwal rutin, event TemuYuk lain, dan kalender bila terhubung — kamu tetap bisa mengubahnya.</p></div><span class="badge pending" id="resp-badge">Belum dikirim</span></header>
+        <div class="matrix-toolbar"><div class="segmented slot-mode" role="group" aria-label="Mode pengisian slot">
+          <button type="button" aria-pressed="true" data-slotmode="toggle" title="Balik isi tiap slot yang dilewati">Balik nilai</button>
+          <button type="button" aria-pressed="false" data-slotmode="available" title="Tandai semua slot yang dilewati bisa">Bisa</button>
+          <button type="button" aria-pressed="false" data-slotmode="unavailable" title="Tandai semua slot yang dilewati tidak bisa">Tidak bisa</button>
+        </div></div>
+        <div class="matrix-scroll" tabindex="0" role="region" aria-labelledby="my-title">
+          <table class="matrix compact avail"><thead><tr><th class="day" scope="col">Tanggal</th><th scope="col">08.00</th><th scope="col">08.30</th><th scope="col">09.00</th><th scope="col">09.30</th><th scope="col">10.00</th><th scope="col">10.30</th><th scope="col">11.00</th><th scope="col">11.30</th></tr></thead>
+          <tbody>
+            <tr><td class="day">Kam 12 Nov</td><td><button type="button" class="slot" data-state="1" aria-pressed="true" aria-label="Kamis 12 November 08.00 — bisa hadir"></button></td><td><button type="button" class="slot" data-state="1" aria-pressed="true" aria-label="Kamis 12 November 08.30 — bisa hadir"></button></td><td><button type="button" class="slot" data-state="1" aria-pressed="true" aria-label="Kamis 12 November 09.00 — bisa hadir"></button></td><td><button type="button" class="slot" data-state="0" aria-pressed="false" aria-label="Kamis 12 November 09.30 — tidak bisa hadir"></button></td><td><button type="button" class="slot" data-state="1" aria-pressed="true" aria-label="Kamis 12 November 10.00 — bisa hadir"></button></td><td><button type="button" class="slot" data-state="1" aria-pressed="true" aria-label="Kamis 12 November 10.30 — bisa hadir"></button></td><td><button type="button" class="slot" data-state="1" aria-pressed="true" aria-label="Kamis 12 November 11.00 — bisa hadir"></button></td><td><button type="button" class="slot" data-state="0" aria-pressed="false" aria-label="Kamis 12 November 11.30 — tidak bisa hadir"></button></td></tr>
+            <tr><td class="day">Jum 13 Nov</td><td><button type="button" class="slot" data-state="1" aria-pressed="true" aria-label="Jumat 13 November 08.00 — bisa hadir"></button></td><td><button type="button" class="slot" data-state="0" aria-pressed="false" aria-label="Jumat 13 November 08.30 — tidak bisa hadir"></button></td><td><button type="button" class="slot" data-state="1" aria-pressed="true" aria-label="Jumat 13 November 09.00 — bisa hadir"></button></td><td><button type="button" class="slot" data-state="1" aria-pressed="true" aria-label="Jumat 13 November 09.30 — bisa hadir"></button></td><td><button type="button" class="slot" data-state="1" aria-pressed="true" aria-label="Jumat 13 November 10.00 — bisa hadir"></button></td><td><button type="button" class="slot" data-state="1" aria-pressed="true" aria-label="Jumat 13 November 10.30 — bisa hadir"></button></td><td><button type="button" class="slot" data-state="0" aria-pressed="false" aria-label="Jumat 13 November 11.00 — tidak bisa hadir"></button></td><td><button type="button" class="slot" data-state="0" aria-pressed="false" aria-label="Jumat 13 November 11.30 — tidak bisa hadir"></button></td></tr>
+            <tr><td class="day">Sab 14 Nov</td><td><button type="button" class="slot" data-state="1" aria-pressed="true" aria-label="Sabtu 14 November 08.00 — bisa hadir"></button></td><td><button type="button" class="slot" data-state="1" aria-pressed="true" aria-label="Sabtu 14 November 08.30 — bisa hadir"></button></td><td><button type="button" class="slot" data-state="0" aria-pressed="false" aria-label="Sabtu 14 November 09.00 — tidak bisa hadir"></button></td><td><button type="button" class="slot" data-state="1" aria-pressed="true" aria-label="Sabtu 14 November 09.30 — bisa hadir"></button></td><td><button type="button" class="slot" data-state="1" aria-pressed="true" aria-label="Sabtu 14 November 10.00 — bisa hadir"></button></td><td><button type="button" class="slot" data-state="1" aria-pressed="true" aria-label="Sabtu 14 November 10.30 — bisa hadir"></button></td><td><button type="button" class="slot" data-state="1" aria-pressed="true" aria-label="Sabtu 14 November 11.00 — bisa hadir"></button></td><td><button type="button" class="slot" data-state="0" aria-pressed="false" aria-label="Sabtu 14 November 11.30 — tidak bisa hadir"></button></td></tr>
+            <tr><td class="day">Kam 19 Nov</td><td><button type="button" class="slot" data-state="0" aria-pressed="false" aria-label="Kamis 19 November 08.00 — tidak bisa hadir"></button></td><td><button type="button" class="slot" data-state="1" aria-pressed="true" aria-label="Kamis 19 November 08.30 — bisa hadir"></button></td><td><button type="button" class="slot" data-state="1" aria-pressed="true" aria-label="Kamis 19 November 09.00 — bisa hadir"></button></td><td><button type="button" class="slot" data-state="1" aria-pressed="true" aria-label="Kamis 19 November 09.30 — bisa hadir"></button></td><td><button type="button" class="slot" data-state="1" aria-pressed="true" aria-label="Kamis 19 November 10.00 — bisa hadir"></button></td><td><button type="button" class="slot" data-state="0" aria-pressed="false" aria-label="Kamis 19 November 10.30 — tidak bisa hadir"></button></td><td><button type="button" class="slot" data-state="1" aria-pressed="true" aria-label="Kamis 19 November 11.00 — bisa hadir"></button></td><td><button type="button" class="slot" data-state="1" aria-pressed="true" aria-label="Kamis 19 November 11.30 — bisa hadir"></button></td></tr>
+          </tbody></table>
+        </div>
+        <p class="scroll-hint">Geser tabel ke samping bila jam kandidat belum terlihat.</p>
+        <div class="matrix-actions">
+          <button type="button" class="btn small ghost" data-bulk="available">Tandai semua bisa</button>
+          <button type="button" class="btn small ghost" data-bulk="unavailable">Tandai semua tidak bisa</button>
+          <button type="button" class="btn small ghost" id="btn-suggest">✨ Isi usulan awal</button>
+        </div>
+        <div class="legend bottom"><span class="legend-item"><span class="legend-swatch focus" aria-hidden="true"></span>Bisa</span><span class="legend-item"><span class="legend-swatch busy" aria-hidden="true"></span>Tidak bisa</span></div>
+        <div class="sticky-actions"><span class="dirty-note" id="resp-note">Respons belum dikirim. Kirim agar pembuat event melihat ketersediaanmu.</span><div class="actions-row" style="margin-bottom:0"><button type="button" class="btn primary" id="btn-send">Kirim respons</button></div></div>
+      </section>
+      <section class="panel" aria-labelledby="rekap-title">
+        <header class="panel-head"><div><h2 class="panel-title" id="rekap-title">Rekap kandidat waktu</h2><p class="panel-sub">Warna menunjukkan peluang kehadiran. Klik slot untuk melihat siapa saja yang bisa dan tidak bisa.</p></div></header>
+        <div class="matrix-scroll" tabindex="0" role="region" aria-labelledby="rekap-title">
+          <table class="matrix compact"><thead><tr><th class="day" scope="col">Tanggal</th><th scope="col">08.00</th><th scope="col">08.30</th><th scope="col">09.00</th><th scope="col">09.30</th><th scope="col">10.00</th><th scope="col">10.30</th><th scope="col">11.00</th><th scope="col">11.30</th></tr></thead>
+          <tbody>
+            <tr><td class="day">Kam 12 Nov</td><td><button type="button" class="slot recap warn" data-slot="Kam 12 Nov|08.00|5|1|2">5</button></td><td><button type="button" class="slot recap warn" data-slot="Kam 12 Nov|08.30|5|1|2">5</button></td><td><button type="button" class="slot recap warn" data-slot="Kam 12 Nov|09.00|4|2|2">4</button></td><td><button type="button" class="slot recap bad" data-slot="Kam 12 Nov|09.30|3|3|2">3</button></td><td></td><td></td><td><button type="button" class="slot recap good" data-slot="Kam 12 Nov|11.00|6|0|2">6</button></td><td><button type="button" class="slot recap good" data-slot="Kam 12 Nov|11.30|7|0|1">7</button></td></tr>
+            <tr><td class="day">Jum 13 Nov</td><td><button type="button" class="slot recap good" data-slot="Jum 13 Nov|08.00|7|0|1">7</button></td><td><button type="button" class="slot recap good" data-slot="Jum 13 Nov|08.30|8|0|0">8</button></td><td><button type="button" class="slot recap good" data-slot="Jum 13 Nov|09.00|6|1|1">6</button></td><td><button type="button" class="slot recap good" data-slot="Jum 13 Nov|09.30|6|1|1">6</button></td><td><button type="button" class="slot recap bad" data-slot="Jum 13 Nov|10.00|2|4|2">2</button></td><td><button type="button" class="slot recap bad" data-slot="Jum 13 Nov|10.30|3|3|2">3</button></td><td><button type="button" class="slot recap good" data-slot="Jum 13 Nov|11.00|8|0|0">8</button></td><td><button type="button" class="slot recap good" data-slot="Jum 13 Nov|11.30|6|1|1">6</button></td></tr>
+          </tbody></table>
+        </div>
+        <p class="scroll-hint">Geser tabel ke samping bila jam kandidat belum terlihat.</p>
+        <div class="legend bottom"><span class="legend-item"><span class="legend-swatch good" aria-hidden="true"></span>Direkomendasikan</span><span class="legend-item"><span class="legend-swatch warn" aria-hidden="true"></span>Pertimbangkan</span><span class="legend-item"><span class="legend-swatch bad" aria-hidden="true"></span>Tidak disarankan</span></div>
+      </section>
+      <section class="panel" aria-labelledby="peserta-title">
+        <header class="panel-head"><div><h2 class="panel-title" id="peserta-title">Peserta</h2><p class="panel-sub">5 dari 8 peserta sudah merespons.</p></div></header>
+        <div class="event-list">
+          <div class="event-row"><div class="event-main row"><span class="avatar" aria-hidden="true">CA</span><span><span class="event-title">Candra Andika Putra</span><span class="event-meta">Pembuat event</span></span></div><span class="badge plain">Pembuat</span></div>
+          <div class="event-row"><div class="event-main row"><span class="avatar" aria-hidden="true">NF</span><span><span class="event-title">Naufal Fadhil Arkani</span><span class="event-meta">Sudah merespons</span></span></div><span class="badge available">Sudah</span></div>
+          <div class="event-row"><div class="event-main row"><span class="avatar" aria-hidden="true">BZ</span><span><span class="event-title">Bagas Zakaria</span><span class="event-meta">Sudah merespons</span></span></div><span class="badge available">Sudah</span></div>
+          <div class="event-row"><div class="event-main row"><span class="avatar" aria-hidden="true">AS</span><span><span class="event-title">Aulya Shabrina Ahmadewi</span><span class="event-meta">Belum merespons</span></span></div><span class="badge pending">Belum</span></div>
+        </div>
+        <button type="button" class="btn ghost small load-more" id="part-more">Lihat semua peserta (8)</button>
+      </section>
+    </div>
+  </main>
+</div>
+<dialog class="ty-dialog wide" id="slot-dialog" aria-labelledby="slot-title">
+  <div class="ty-dialog-body">
+    <h2 id="slot-title">Detail slot</h2>
+    <p id="slot-sub"></p>
+    <div class="slot-detail">
+      <section><h3>Bisa hadir</h3><p id="slot-ok"></p></section>
+      <section><h3>Tidak bisa</h3><p id="slot-no"></p></section>
+      <section><h3>Belum merespons</h3><p id="slot-wait"></p></section>
+    </div>
+    <div class="dialog-actions"><button type="button" class="btn ghost" data-close>Tutup</button></div>
+  </div>
+</dialog>
+<div class="toasts" id="toasts" aria-live="polite"></div>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
