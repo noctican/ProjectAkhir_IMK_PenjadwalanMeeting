@@ -25,7 +25,20 @@ python3 -m http.server 8080
 | `jadwal-saya.html` | Jadwal rutin mingguan 7×48 slot |
 | `jadwal-final.html` | Jadwal final yang sudah ditetapkan |
 
-Aset bersama: `style.css` (token desain + grid slot), `script.js` (tab auth, drag slot, wizard, dialog native, theme).
+Aset bersama: `style.css` (token desain + grid slot) dan folder `js/`:
+
+| File | Isi |
+| --- | --- |
+| `js/core.js` | Namespace `TY`, toast, theme toggle (muat pertama) |
+| `js/time.js` | Helper tanggal/jam Asia/Jakarta |
+| `js/slot-drag.js` | Drag-paint slot + mode pengisian |
+| `js/auth.js` | Tab masuk/daftar + validasi (khusus `index.html`) |
+| `js/calendar-onboard.js` | Tombol hubungkan kalender (khusus onboarding) |
+| `js/buat-event.js` | Wizard 5 langkah: peserta, tanggal, jam, rekap, ringkasan |
+| `js/jadwal-saya.js` | Grid mingguan 7×48 (khusus `jadwal-saya.html`) |
+| `js/respons.js` | Kirim respons peserta (khusus `detail-event-peserta.html`) |
+| `js/dialogs.js` | Dialog detail slot + konfirmasi final/batal |
+| `js/jadwal-final.js` | Tombol kalender + bagikan (khusus `jadwal-final.html`) |
 
 ## Catatan
 
